@@ -1,0 +1,25 @@
+language: node_js
+
+sudo: false
+
+# After creating your SDK project from this template repository,
+# uncomment this section to enable builds on the appropriate node versions.
+node_js:
+- 12
+- 14
+
+script:
+- npm run build
+- npm run test-unit-travis || travis_terminate 1
+- npm run lint
+- npm run check-packages
+# - sh scripts/typedoc/generate_typedoc.sh currently in progress
+
+# To enable semantic-release, uncomment this section.
+deploy:
+- provider: script
+  skip_cleanup: true
+  script: npx semantic-release
+  on:
+    node: 14
+    branch: main
