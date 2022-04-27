@@ -10,7 +10,6 @@ Changes might occur which impact applications that use this SDK.
 
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
-  * [Gradle](#gradle)
 - [Using the SDK](#using-the-sdk)
 - [Questions](#questions)
 - [Issues](#issues)
@@ -149,7 +148,7 @@ enPush.unRegisterDevice(function(response) {
 
 The `subscribe` API will subscribe the device for a given tag. After the device is subscribed to a particular tag, the device can receive notifications that are sent for that tag. 
 
-Add the following code snippet to your Android mobile application to subscribe to a list of tags.
+Add the following code snippet to your web application to subscribe to a list of tags.
 
 ```js
 enPush.subscribe(tagName, function(response) {
