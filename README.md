@@ -36,7 +36,7 @@ Service Name | Artifact Coordinates
 * An IAM API key to allow the SDK to access your account. Create one [here](https://cloud.ibm.com/iam/apikeys).
 
 ## Installation
-The current version of this SDK is: 0.0.1
+The current version of this SDK is: 0.0.2
 
 Downlaod the latest version from [Github](https://github.com/IBM/event-notifications-destination-webpush-sdk/releases/latest)
 
@@ -100,7 +100,9 @@ var initParams = {
   "chromeDestinationId": "<chrome_destination_id>",
   "chromeApplicationServerKey": "<Chrome_VapId_public_key>",
   "firefoxDestinationId": "<firefox_destination_id>",
-  "firefoxApplicationServerKey": "<Firefox_VapId_public_key>"
+  "firefoxApplicationServerKey": "<Firefox_VapId_public_key>",
+  "safariDestinationId": "<IBM-Cloud-en-instance-safari-destination-id>",
+  "websitePushIdSafari": "<safari-web-push-id>"
 }
 
 enPush.initialize(initParams, callback)
