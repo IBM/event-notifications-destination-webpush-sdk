@@ -56,6 +56,8 @@ function displayNotification(event) {
     var imageUrl = messageJson.iconUrl ? messageJson.iconUrl : "images/icon.png";
     var bodyAlert = messageJson.alert ? messageJson.alert : "Example message";
     var payloadData = messageJson.payload ? messageJson.payload : "Example message";
+    payloadData.nid = messageJson.en_nid;
+
     let messageTemp;    
     if ((messageTemp = regex.exec(bodyAlert)) !== null) {
         bodyAlert = createTemplateMessage(bodyAlert);
@@ -68,14 +70,21 @@ function displayNotification(event) {
     return Promise.resolve();
 }
 
+function triggerSeenEvent(strMsg) {
+    sendMessageToAllClients("msgEventSeen:" + strMsg);
+}
+
+function triggerOpenEvent(strMsg) {
+    sendMessageToAllClients("msgEventOpen:" + strMsg);
+}
 
 function onPushNotificationReceived(event) {
     console.log('Push notification received : ', event);
     if (event.data) {
         console.log('Event data is : ', event.data.text());
     }
-    event.waitUntil(displayNotification(event))
-    //event.waitUntil(displayNotification(event).then(() => triggerSeenEvent(event.data.text())));
+    //event.waitUntil(displayNotification(event))
+    event.waitUntil(displayNotification(event).then(() => triggerSeenEvent(event.data.text())));
 }
 
 self.addEventListener('push', onPushNotificationReceived);
@@ -122,4 +131,11 @@ self.addEventListener('activate', function (event) {
 self.addEventListener('pushsubscriptionchange', function () {
     console.log('Push Subscription change');
     sendMessageToAllClients("updateRegistration:");
+});
+
+self.addEventListener('notificationclick', function (event) {
+    console.log('Notification clicked with tag' + event.notification.tag + " and data " + event.notification.data);
+    let nidjson = event.notification.data;
+    event.notification.close();
+    event.waitUntil(triggerOpenEvent(JSON.stringify(nidjson)));
 });
