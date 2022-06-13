@@ -55,7 +55,7 @@ function displayNotification(event) {
     var title = messageJson.title ? messageJson.title : "New message";
     var imageUrl = messageJson.iconUrl ? messageJson.iconUrl : "images/icon.png";
     var bodyAlert = messageJson.alert ? messageJson.alert : "Example message";
-    var payloadData = messageJson.payload ? messageJson.payload : "Example message";
+    var payloadData = messageJson.payload ? messageJson.payload : {};
     payloadData.nid = messageJson.en_nid;
 
     let messageTemp;    
