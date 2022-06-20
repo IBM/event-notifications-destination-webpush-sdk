@@ -101,6 +101,9 @@ function ENPush() {
             }
 
             localStorage.setItem("deviceId", _deviceId);
+            localStorage.setItem("destinationId", _destinationId);
+            localStorage.setItem("enapikey", _apikey);
+            localStorage.setItem("instanceId", _instanceId);
 
             if (validateInput(_pushVaribales)) {
                 localStorage.setItem("pushVaribales", _pushVaribales);
@@ -116,7 +119,7 @@ function ENPush() {
 
             if (getBrowser() != SAFARI_BROWSER) {
                 sendMessage(_pushVaribales);
-              }
+            }
 
         } else {
             printLog("Please provide a valid config values");
@@ -172,7 +175,7 @@ function ENPush() {
                             printLog("Exit - unRegisterDevice");
                             return;
                         }
-    
+
                         setTimeout(function () {
                             // We have a subcription, so call unsubscribe on it
                             subscription.unsubscribe().then(function (successful) {
@@ -323,30 +326,30 @@ function ENPush() {
                 let baseUrl = _pushBaseUrl + "/event-notifications/v1/instances/" + _instanceId + "/destinations/" + _destinationId + "/safariWebConf";
                 printLog("Request user for permission to receive notification for base URL " + baseUrl + " and websitepushID " + _websitePushIDSafari);
                 window.safari.pushNotification.requestPermission(baseUrl,
-                  _websitePushIDSafari, {
+                    _websitePushIDSafari, {
                     "deviceId": localStorage.getItem("deviceId"),
                     "userId": userId
-                  },
-                  function(resultRequestPermission) {
-                    if (resultRequestPermission.permission === "granted") {
-                      printLog("The user has granted the permission to receive notifications");
-                      registerUsingToken(resultRequestPermission.deviceToken, callbackM);
-                    }
-                  });
-    
-                } else if (resultSafariPermission.permission === "denied") {
-                  // The user denied the notification permission which
-                  // means we failed to subscribe and the user will need
-                  // to manually change the notification permission to
-                  // subscribe to push messages
-                  printLog('Permission for Notifications was denied');
-                  setPushResponse("The user denied permission for Safari Push Notifications.", 401, "Error");
-                  callback("Error in registration");
-                  callbackM(BMSPushResponse);
-                } else {
-                  //Already granted the permission
-                  registerUsingToken(resultSafariPermission.deviceToken, callbackM);
-                }
+                },
+                    function (resultRequestPermission) {
+                        if (resultRequestPermission.permission === "granted") {
+                            printLog("The user has granted the permission to receive notifications");
+                            registerUsingToken(resultRequestPermission.deviceToken, callbackM);
+                        }
+                    });
+
+            } else if (resultSafariPermission.permission === "denied") {
+                // The user denied the notification permission which
+                // means we failed to subscribe and the user will need
+                // to manually change the notification permission to
+                // subscribe to push messages
+                printLog('Permission for Notifications was denied');
+                setPushResponse("The user denied permission for Safari Push Notifications.", 401, "Error");
+                callback("Error in registration");
+                callbackM(BMSPushResponse);
+            } else {
+                //Already granted the permission
+                registerUsingToken(resultSafariPermission.deviceToken, callbackM);
+            }
         } else {
             var subscribeOptions = { userVisibleOnly: true };
 
@@ -390,7 +393,7 @@ function ENPush() {
             });
         }
 
-        
+
     }
 
     function update() {
@@ -443,11 +446,9 @@ function ENPush() {
 
         return new Promise((resolve, reject) => {
             printLog("Started checking the notification compatibility");
-            if (navigator.serviceWorker) { //&&
-                //    window.location.protocol === 'https:') { //Only HTTPS is supported
+            if (navigator.serviceWorker) {
                 navigator.serviceWorker.addEventListener('message', function (event) {
                     console.log("Client 1 Received Message: " + event.data);
-                    //event.ports[0].postMessage("Client 1 Says 'Hello back!'");
                     let eventData = event.data;
                     printLog("The response from the service worker is " + eventData);
                     let command = eventData.substr(0, eventData.indexOf(':'));
@@ -474,17 +475,25 @@ function ENPush() {
                             _platform = "WEB_CHROME";
                         }
 
-                        let statusObj = { 
+                        let statusObj = {
                             'notification_id': nid,
-                             'status': statusStr,
-                             'platform': _platform,
-                             };
-                             var deviceId = localStorage.getItem("deviceId");
+                            'status': statusStr,
+                            'platform': _platform,
+                        };
+                        var deviceId = localStorage.getItem("deviceId");
+                        var destinationId = localStorage.getItem("destinationId");
+                        
+                        post("/destinations/" + destinationId + "/devices/" + deviceId + "/delivery", function (res) {
+                            if (res.status == 204) {
+                                resolve(JSON.parse(res.responseText));
+                            } else {
+                                reject(res);
+                            }
+                        }, statusObj);
                     }
                     else {
                         update();
                     }
-                    //update();
                 });
 
 
@@ -502,7 +511,7 @@ function ENPush() {
                     }
                     if (getBrowser() === SAFARI_BROWSER) {
                         resolve();
-                      }
+                    }
 
                     if (!(reg.showNotification)) {
                         printLog('Notifications aren\'t supported on service workers.');
@@ -525,17 +534,9 @@ function ENPush() {
                     resolve();
                 });
             } else if (getBrowser() === SAFARI_BROWSER) {
-                //Service workers are not supported by Safari
-                //TODO: Check for safari version
                 resolve();
-              }
-            //   } else {
-            //     printLog('Service workers aren\'t supported in this browser.');
-            //     reject(getENPushResponse("Service workers aren\'t supported in this browser.", 401, "Error"));
-            //   }
-
+            }
         });
-
     }
 
     function callback(response) {
@@ -567,7 +568,7 @@ function ENPush() {
             var key = rawKey ? btoa(String.fromCharCode.apply(null, new Uint8Array(rawKey))) : '';
             var rawAuthSecret = subscription.getKey ? subscription.getKey('auth') : '';
             var authSecret = rawAuthSecret ? btoa(String.fromCharCode.apply(null, new Uint8Array(rawAuthSecret))) : '';
-    
+
             if (!validateInput(subscription.endpoint) || !validateInput(key) || !validateInput(authSecret)) {
                 printLog("Error while getting token values");
                 callbackM(getENPushResponse("Error while getting token values", 500, "Error"));
@@ -796,29 +797,34 @@ function ENPush() {
 
     function callPushRest(method, callback, action, data, headers) {
 
-        var url = _pushBaseUrl + '/event-notifications/v1/instances/' + _instanceId;
-         var xmlHttp = new XMLHttpRequest();
-         xmlHttp.onreadystatechange = function () {
-             if (xmlHttp.readyState == 4) {
-                 callback(xmlHttp);
-             }
-         }
-         xmlHttp.open(method, url + action, true); // true for asynchronous
-         xmlHttp.setRequestHeader('Content-Type', 'application/json; charset = UTF-8');
-         xmlHttp.setRequestHeader('Accept-Language', 'en-US')
-         xmlHttp.setRequestHeader('en-api-key', _apikey);
+         var pushBaseUrl = localStorage.getItem("pushBaseUrl");
+         var instanceId = localStorage.getItem("instanceId");
 
-         xmlHttp.send(JSON.stringify(data));
+        var url = pushBaseUrl + '/event-notifications/v1/instances/' + instanceId;
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState == 4) {
+                callback(xmlHttp);
+            }
+        }
+        xmlHttp.open(method, url + action, true); // true for asynchronous
+        xmlHttp.setRequestHeader('Content-Type', 'application/json; charset = UTF-8');
+        xmlHttp.setRequestHeader('Accept-Language', 'en-US')
+        var apikey = localStorage.getItem("enapikey");
+        xmlHttp.setRequestHeader('en-api-key', apikey);
+        xmlHttp.send(JSON.stringify(data));
 
     }
-    
+
     function getBaseUrl(appReg) {
         if (_overrideServerHost) {
             _pushBaseUrl = _overrideServerHost;
         } else {
             _pushBaseUrl = "https://" + appReg + PUSH_API_ENDPOINT;
         }
+        localStorage.setItem("pushBaseUrl", _pushBaseUrl);
     }
+
     String.prototype.hashCode = function () {
         var hash = 0,
             i, chr, len;
@@ -835,7 +841,7 @@ function ENPush() {
 
         var devId = localStorage.getItem("deviceId");
 
-        if(devId != null && devId.length > 0) {
+        if (devId != null && devId.length > 0) {
             _deviceId = devId;
             return _deviceId;
         }

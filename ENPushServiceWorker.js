@@ -53,20 +53,12 @@ function displayNotification(event) {
         return
     }
     var title = messageJson.title ? messageJson.title : "New message";
-    var imageUrl = messageJson.iconUrl ? messageJson.iconUrl : "images/icon.png";
-    var bodyAlert = messageJson.alert ? messageJson.alert : "Example message";
-    var payloadData = messageJson.payload ? messageJson.payload : "Example message";
-    payloadData.nid = messageJson.en_nid;
-
-    let messageTemp;    
-    if ((messageTemp = regex.exec(bodyAlert)) !== null) {
-        bodyAlert = createTemplateMessage(bodyAlert);
-    }
-    self.registration.showNotification(title, {
-        body: bodyAlert,
-        icon: imageUrl,
-        data: payloadData
-    });  
+    var options = messageJson.options ? messageJson.options :  {};
+    var data = options.data ? options.data : {}
+    data.nid = messageJson.en_nid ? messageJson.en_nid : "";
+    options.data = data;
+   
+    self.registration.showNotification(title, options); 
     return Promise.resolve();
 }
 
@@ -83,7 +75,6 @@ function onPushNotificationReceived(event) {
     if (event.data) {
         console.log('Event data is : ', event.data.text());
     }
-    //event.waitUntil(displayNotification(event))
     event.waitUntil(displayNotification(event).then(() => triggerSeenEvent(event.data.text())));
 }
 
