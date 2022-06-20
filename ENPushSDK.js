@@ -36,7 +36,6 @@ var _overrideServerHost;
 var _serviceWorker = "";
 var _websitePushIDSafari;
 
-
 /**
  * Push SDK class for handling the Web device requests
  * @module ENPush
@@ -142,12 +141,21 @@ function ENPush() {
     };
 
     /**
-   * Registers the device on to the ENPush Notification Server
-   *
-   * @param {string} userId: the User ID value.
-   * @param {Object} callback - A callback function
-   * @method module:ENPush#registerWithUserId
-   */
+* Enable/Disbale push notifications status report
+* @param {boolean} enable
+* @method module:ENPush#enableMessageStatusReport 
+*/
+    this.enableMessageStatusReport = function (enable) {
+        localStorage.setItem("enableMessageStatus", enable);
+    };
+
+    /**
+* Registers the device on to the ENPush Notification Server
+*
+* @param {string} userId: the User ID value.
+* @param {Object} callback - A callback function
+* @method module:ENPush#registerWithUserId
+*/
     this.registerWithUserId = function (userId, callbackM) {
         registerPush(userId, callbackM);
     };
@@ -482,7 +490,11 @@ function ENPush() {
                         };
                         var deviceId = localStorage.getItem("deviceId");
                         var destinationId = localStorage.getItem("destinationId");
-                        
+                        var enableStatus =  localStorage.getItem("enableMessageStatus");
+                        if (enableStatus == null || !enableStatus) {
+                            return
+                        }
+
                         post("/destinations/" + destinationId + "/devices/" + deviceId + "/delivery", function (res) {
                             if (res.status == 204) {
                                 resolve(JSON.parse(res.responseText));
@@ -797,8 +809,8 @@ function ENPush() {
 
     function callPushRest(method, callback, action, data, headers) {
 
-         var pushBaseUrl = localStorage.getItem("pushBaseUrl");
-         var instanceId = localStorage.getItem("instanceId");
+        var pushBaseUrl = localStorage.getItem("pushBaseUrl");
+        var instanceId = localStorage.getItem("instanceId");
 
         var url = pushBaseUrl + '/event-notifications/v1/instances/' + instanceId;
         var xmlHttp = new XMLHttpRequest();
