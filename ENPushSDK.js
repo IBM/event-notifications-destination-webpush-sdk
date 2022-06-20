@@ -495,13 +495,7 @@ function ENPush() {
                             return
                         }
 
-                        post("/destinations/" + destinationId + "/devices/" + deviceId + "/delivery", function (res) {
-                            if (res.status == 204) {
-                                resolve(JSON.parse(res.responseText));
-                            } else {
-                                reject(res);
-                            }
-                        }, statusObj);
+                        post("/destinations/" + destinationId + "/devices/" + deviceId + "/delivery", function (res) {}, statusObj);
                     }
                     else {
                         update();
