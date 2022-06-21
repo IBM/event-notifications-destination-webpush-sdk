@@ -55,7 +55,7 @@ function displayNotification(event) {
     var title = messageJson.title ? messageJson.title : "New message";
     var options = messageJson.options ? messageJson.options :  {};
     var data = options.data ? options.data : {}
-    data.nid = messageJson.en_nid ? messageJson.en_nid : "";
+    data.en_nid = messageJson.en_nid ? messageJson.en_nid : "";
     options.data = data;
    
     self.registration.showNotification(title, options); 

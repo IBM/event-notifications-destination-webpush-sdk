@@ -190,16 +190,17 @@ To send `DeviceId` use the `setDeviceId` method of `ENPushNotificationOptions` c
 	ENPushNotificationOptions options = new ENPushNotificationOptions();
 	options.setDeviceid("YOUR_DEVICE_ID");
 ```
+>**Note**: Remember to keep custom DeviceId `unique` for each device.
 
 ## Notification Status report
 
  To enable/disable the message status report, use the following method, 
 
  ```js
- enPush.enableMessageStatusReport(true)
+ enPush.enableMessageStatusReport(true) // send false for disabling the status.
  ```
+>**Note**: By default status reporting is disabled.
 
->**Note**: Remember to keep custom DeviceId `unique` for each device.
 ## Questions
 
 If you are having difficulties using this SDK or have a question about the IBM Cloud services,
