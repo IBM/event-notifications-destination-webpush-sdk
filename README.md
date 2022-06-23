@@ -56,6 +56,7 @@ SDK Methods to consume
 	- [Unsubscribe from tags](#unsubscribe-from-tags)
 - [Notification options](#notification-options)
 	- [Adding custom DeviceId for registration](#adding-custom-deviceid-for-registration)
+- [Notification Status reports](#notification-status-report)
 
 ## Installation
 
@@ -185,12 +186,21 @@ enPush.unSubscribe(tagName, function(response) {
 
 To send `DeviceId` use the `setDeviceId` method of `ENPushNotificationOptions` class.
 
-```java
+```js
 	ENPushNotificationOptions options = new ENPushNotificationOptions();
 	options.setDeviceid("YOUR_DEVICE_ID");
 ```
-
 >**Note**: Remember to keep custom DeviceId `unique` for each device.
+
+## Notification Status report
+
+ To enable/disable the message status report, use the following method, 
+
+ ```js
+ enPush.enableMessageStatusReport(true) // send false for disabling the status.
+ ```
+>**Note**: By default status reporting is disabled.
+
 ## Questions
 
 If you are having difficulties using this SDK or have a question about the IBM Cloud services,
