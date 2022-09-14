@@ -35,6 +35,7 @@
  var _overrideServerHost;
  var _serviceWorker = "";
  var _websitePushIDSafari;
+ var _usePrivate= false;
  
  /**
   * Push SDK class for handling the Web device requests
@@ -822,10 +823,21 @@
  
      }
  
+function usePrivateEndPoint(usePrivate){
+    if(usePrivate){
+         _usePrivate=true;
+    }else{
+        _usePrivate=false;
+    }
+}
+
      function getBaseUrl(appReg) {
          if (_overrideServerHost) {
              _pushBaseUrl = _overrideServerHost;
          } else {
+            if(_usePrivate){
+                _pushBaseUrl = "https://private." + appReg + PUSH_API_ENDPOINT;
+            }
              _pushBaseUrl = "https://" + appReg + PUSH_API_ENDPOINT;
          }
          localStorage.setItem("pushBaseUrl", _pushBaseUrl);
