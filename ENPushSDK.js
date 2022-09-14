@@ -35,7 +35,7 @@
  var _overrideServerHost;
  var _serviceWorker = "";
  var _websitePushIDSafari;
- var _usePrivate= false;
+ var _usePrivate = false;
  
  /**
   * Push SDK class for handling the Web device requests
