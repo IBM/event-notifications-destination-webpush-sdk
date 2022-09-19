@@ -91,7 +91,7 @@ Set the SDK to connect to Event Notification service by using a private endpoint
 enPush.UsePrivateEndpoint(true)
 
 ```
-This must be done before calling the Init function on the SDK.
+This must be done before calling the initialize function on the SDK.
 
 ### Initialize SDK
 
