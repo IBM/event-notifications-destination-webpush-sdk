@@ -199,7 +199,7 @@ To send `DeviceId` use the `setDeviceId` method of `ENPushNotificationOptions` c
  ```js
  enPush.enableMessageStatusReport(true) // send false for disabling the status.
  ```
->**Note**: By default status reporting is disabled.
+>**Note**: By default status reporting is disabled. Status tracking feature is not supported for safari browser and it is available for Firefix and Chrome browsers.
 
 ## Questions
 
