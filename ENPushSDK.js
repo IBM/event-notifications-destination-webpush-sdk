@@ -35,6 +35,7 @@
  var _overrideServerHost;
  var _serviceWorker = "";
  var _websitePushIDSafari;
+ var _usePrivate = false;
  
  /**
   * Push SDK class for handling the Web device requests
@@ -50,6 +51,20 @@
      this.REGION_GERMANY = "eu-de";
  
  
+    /**
+        * To specify the end point either private/public
+        *
+        * @param {boolean} usePrivate - boolean value to specify private/public 
+        * @method module:ENPush#usePrivateEndPoint
+        */
+     this.usePrivateEndPoint = function (usePrivate) {
+        if(usePrivate){
+                _usePrivate=true;
+        }else{
+            _usePrivate=false;
+        }
+    }
+
      /**
      * Initialize the Event Notifications Web Push SDK
      * @method module:ENPush#initialize
@@ -821,12 +836,16 @@
          xmlHttp.send(JSON.stringify(data));
  
      }
- 
+
      function getBaseUrl(appReg) {
          if (_overrideServerHost) {
              _pushBaseUrl = _overrideServerHost;
          } else {
-             _pushBaseUrl = "https://" + appReg + PUSH_API_ENDPOINT;
+            if(_usePrivate){
+                _pushBaseUrl = "https://private." + appReg + PUSH_API_ENDPOINT;
+            }else{
+                _pushBaseUrl = "https://" + appReg + PUSH_API_ENDPOINT;
+            }
          }
          localStorage.setItem("pushBaseUrl", _pushBaseUrl);
      }

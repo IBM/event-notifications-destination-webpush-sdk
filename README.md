@@ -82,6 +82,17 @@ SDK Methods to consume
 	```html
 	<script src="ENPushSDK.js" async></script>
 	```
+
+### Connect using private network connection (optional)
+
+Set the SDK to connect to Event Notification service by using a private endpoint that is accessible only through the IBM Cloud private network.
+
+```js
+enPush.UsePrivateEndpoint(true)
+
+```
+This must be done before calling the initialize function on the SDK.
+
 ### Initialize SDK
 
 Complete the following steps to enable Website to initialize the SDK.
