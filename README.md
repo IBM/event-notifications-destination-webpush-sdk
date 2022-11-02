@@ -92,6 +92,7 @@ enPush.UsePrivateEndpoint(true)
 
 ```
 This must be done before calling the initialize function on the SDK.
+>**Note**: Currently private end point is not supported over Safari destination.
 
 ### Initialize SDK
 
@@ -210,7 +211,7 @@ To send `DeviceId` use the `setDeviceId` method of `ENPushNotificationOptions` c
  ```js
  enPush.enableMessageStatusReport(true) // send false for disabling the status.
  ```
->**Note**: By default status reporting is disabled. Status tracking feature is not supported for safari browser and it is available for Firefix and Chrome browsers.
+>**Note**: By default status reporting is disabled. Status tracking feature is not supported for safari browser and it is available for Firefox and Chrome browsers.
 
 ## Questions
 
