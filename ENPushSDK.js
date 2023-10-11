@@ -49,6 +49,7 @@
      this.REGION_UK = "eu-gb";
      this.REGION_SYDNEY = "au-syd";
      this.REGION_GERMANY = "eu-de";
+     this.REGION_MADRID = "eu-es";
  
  
     /**
@@ -70,7 +71,7 @@
      * @method module:ENPush#initialize
      * @param {string} instanceGUID - The Event Notifications service instance GUID value
      * @param {string} apikey - The Event Notifications service instance apikey value
-     * @param {string} region - The region of Event Notifications service you hosted. Eg: us-south, eu-gb or au-syd
+     * @param {string} region - The region of Event Notifications service you hosted. Eg: us-south, eu-gb, au-syd, eu-de or eu-es
      * @param {string} chromeDestinationId - The Event Notifications service chrome destination Id value
      * @param {string} chromeApplicationServerKey - The Event Notifications service chrome destination VAPID public key value
      * @param {string} firefoxDestinationId - The Event Notifications service firefox destination Id value
