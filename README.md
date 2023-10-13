@@ -1,6 +1,6 @@
 
 
-# Webpush destination SDK for IBM Cloud Event Notifications service Version 0.0.1
+# Webpush destination SDK for IBM Cloud Event Notifications service Version 0.1.0
 Webpush destination client library to interact with various [IBM Cloud Event Notifications Service](https://cloud.ibm.com/apidocs?category=event-notifications).
 
 Disclaimer: this SDK is being released initially as a **pre-release** version.
@@ -25,7 +25,7 @@ The IBM Cloud Event Notifications Service Webpush destination SDK allows develop
 
 Service Name | Artifact Coordinates
 --- | ---
-[Event Notifications Service](https://cloud.ibm.com/apidocs/event-notifications) | ENPush:0.0.1
+[Event Notifications Service](https://cloud.ibm.com/apidocs/event-notifications) | ENPush:0.1.0
 
 ## Prerequisites
 
@@ -36,7 +36,7 @@ Service Name | Artifact Coordinates
 * An IAM API key to allow the SDK to access your account. Create one [here](https://cloud.ibm.com/iam/apikeys).
 
 ## Installation
-The current version of this SDK is: 0.0.2
+The current version of this SDK is: 0.1.0
 
 Downlaod the latest version from [Github](https://github.com/IBM/event-notifications-destination-webpush-sdk/releases/latest)
 
@@ -122,7 +122,7 @@ enPush.initialize(initParams, callback)
 
 ```
 
-- region : Region of the Event Notifications Instance. eg; `us-south`,`eu-gb`, `au-syd` and `eu-de`
+- region : Region of the Event Notifications Instance. eg; `us-south`,`eu-gb`, `au-syd`, `eu-de` and 'eu-es'
 - deviceId: Optional deviceId for device registration.
 
 ## Register for notifications
