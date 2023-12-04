@@ -50,6 +50,7 @@
      this.REGION_SYDNEY = "au-syd";
      this.REGION_GERMANY = "eu-de";
      this.REGION_MADRID = "eu-es";
+     this.REGION_BNPP = "eu-fr2";
  
  
     /**
