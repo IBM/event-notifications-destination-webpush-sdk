@@ -884,11 +884,7 @@
          arrayData.push(String(hostname).hashCode());
          arrayData.push(String(_platform).hashCode());
  
-         var finalString = arrayData.join("").replace(/[-.]/g, '').replace(/[,.]/g, '');
-         var uuid = "";
-         for (var i = 0; i < 32; i++) {
-             uuid += finalString.charAt(Math.floor(Math.random() * finalString.length));
-         }
+         let uuid = crypto.randomUUID();
          localStorage.setItem("deviceId", uuid);
          _deviceId = uuid;
          return _deviceId;
