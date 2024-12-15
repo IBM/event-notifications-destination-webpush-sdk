@@ -36,6 +36,7 @@
  var _serviceWorker = "";
  var _websitePushIDSafari;
  var _usePrivate = false;
+ var _package = "ENPush:0.1.0"
  
  /**
   * Push SDK class for handling the Web device requests
@@ -835,6 +836,7 @@
          xmlHttp.setRequestHeader('Accept-Language', 'en-US')
          var apikey = localStorage.getItem("enapikey");
          xmlHttp.setRequestHeader('en-api-key', apikey);
+         xmlHttp.setRequestHeader('User-Agent',_package)
          xmlHttp.send(JSON.stringify(data));
  
      }
