@@ -51,6 +51,10 @@
      this.REGION_GERMANY = "eu-de";
      this.REGION_MADRID = "eu-es";
      this.REGION_BNPP = "eu-fr2";
+     this.REGION_OSAKA = "jp-osa";
+     this.REGION_TOKYO = "jp-tok";
+     this.REGION_TORONTO = "ca-tor";
+     this.REGION_SAO_PAULO = "br-sao";
  
  
     /**
