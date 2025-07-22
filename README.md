@@ -122,7 +122,7 @@ enPush.initialize(initParams, callback)
 
 ```
 
-- region : Region of the Event Notifications Instance. eg; `us-south`,`eu-gb`, `au-syd`, `eu-de`, 'eu-es', 'ca-tor', 'jp-tok', 'jp-osa' and 'br-sao'
+- region : Region of the Event Notifications Instance. eg; `us-south`,`eu-gb`, `au-syd`, `eu-de`, 'eu-es', 'ca-tor', 'jp-tok', 'jp-osa', 'br-sao' and 'ca-mon'
 - deviceId: Optional deviceId for device registration.
 
 ## Register for notifications
