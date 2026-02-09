@@ -57,6 +57,7 @@
      this.REGION_SAO_PAULO = "br-sao";
      this.REGION_MONTREAL = "ca-mon";
      this.REGION_WASHINGTON_DC = "us-east";
+     this.REGION_CHENNAI = "in-che";
  
  
     /**
