@@ -126,7 +126,6 @@
  
              localStorage.setItem("deviceId", _deviceId);
              localStorage.setItem("destinationId", _destinationId);
-             localStorage.setItem("enapikey", _apikey);
              localStorage.setItem("instanceId", _instanceId);
  
              if (validateInput(_pushVaribales)) {
@@ -588,7 +587,6 @@
          var token;
  
          _deviceId = localStorage.getItem("deviceId");
-         localStorage.setItem("token", subscription);
  
          if (getBrowser() === SAFARI_BROWSER) {
              _platform = "WEB_SAFARI";
@@ -841,8 +839,7 @@
          xmlHttp.open(method, url + action, true); // true for asynchronous
          xmlHttp.setRequestHeader('Content-Type', 'application/json; charset = UTF-8');
          xmlHttp.setRequestHeader('Accept-Language', 'en-US')
-         var apikey = localStorage.getItem("enapikey");
-         xmlHttp.setRequestHeader('en-api-key', apikey);
+         xmlHttp.setRequestHeader('en-api-key', _apikey);
          xmlHttp.send(JSON.stringify(data));
  
      }
